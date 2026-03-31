@@ -1,0 +1,5 @@
+com.iwip.common.translation.config.TranslationConfig
+com.iwip.common.translation.core.impl.DeptNameTranslationImpl
+com.iwip.common.translation.core.impl.DictTypeTranslationImpl
+com.iwip.common.translation.core.impl.UserNameTranslationImpl
+com.iwip.common.translation.core.impl.NicknameTranslationImpl
