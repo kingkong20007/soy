@@ -9,7 +9,6 @@ import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.iwip.common.core.factory.YmlPropertySourceFactory;
-// 注意这里去掉了 TenantLineInnerInterceptor 的 import
 import com.iwip.common.mybatis.aspect.DataPermissionPointcutAdvisor;
 import com.iwip.common.mybatis.handler.InjectionMetaObjectHandler;
 import com.iwip.common.mybatis.handler.MybatisExceptionHandler;

@@ -105,7 +105,7 @@ export const generatedRoutes: GeneratedRoute[] = [
   },
   {
     name: 'login',
-    path: '/login/:module(pwd-login|code-login|register|reset-pwd|bind-wechat)?',
+    path: '/login/:module(pwd-login|register|reset-pwd|bind-wechat)?',
     component: 'layout.blank$view.login',
     props: true,
     meta: {
@@ -241,27 +241,6 @@ export const generatedRoutes: GeneratedRoute[] = [
         }
       },
       {
-        name: 'system_oss',
-        path: '/system/oss',
-        component: 'view.system_oss',
-        meta: {
-          title: 'system_oss',
-          i18nKey: 'route.system_oss'
-        }
-      },
-      {
-        name: 'system_oss-config',
-        path: '/system/oss-config',
-        component: 'view.system_oss-config',
-        meta: {
-          title: 'system_oss-config',
-          i18nKey: 'route.system_oss-config',
-          constant: true,
-          hideInMenu: true,
-          icon: 'hugeicons:configuration-01'
-        }
-      },
-      {
         name: 'system_post',
         path: '/system/post',
         component: 'view.system_post',
@@ -277,24 +256,6 @@ export const generatedRoutes: GeneratedRoute[] = [
         meta: {
           title: 'system_role',
           i18nKey: 'route.system_role'
-        }
-      },
-      {
-        name: 'system_tenant',
-        path: '/system/tenant',
-        component: 'view.system_tenant',
-        meta: {
-          title: 'system_tenant',
-          i18nKey: 'route.system_tenant'
-        }
-      },
-      {
-        name: 'system_tenant-package',
-        path: '/system/tenant-package',
-        component: 'view.system_tenant-package',
-        meta: {
-          title: 'system_tenant-package',
-          i18nKey: 'route.system_tenant-package'
         }
       },
       {

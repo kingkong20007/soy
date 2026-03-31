@@ -1,15 +1,15 @@
 package com.iwip.system.domain.bo;
 
+import com.iwip.common.core.validate.AddGroup;
+import com.iwip.common.core.validate.EditGroup;
+import com.iwip.common.mybatis.core.domain.BaseEntity;
+import com.iwip.system.domain.SysSocial;
 import io.github.linpeilie.annotations.AutoMapper;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import com.iwip.common.core.validate.AddGroup;
-import com.iwip.common.core.validate.EditGroup;
-import com.iwip.common.tenant.core.TenantEntity;
-import com.iwip.system.domain.SysSocial;
 
 /**
  * 社会化关系业务对象 sys_social
@@ -20,7 +20,7 @@ import com.iwip.system.domain.SysSocial;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @AutoMapper(target = SysSocial.class, reverseConvertGenerate = false)
-public class SysSocialBo extends TenantEntity {
+public class SysSocialBo extends BaseEntity {
 
     /**
      * 主键

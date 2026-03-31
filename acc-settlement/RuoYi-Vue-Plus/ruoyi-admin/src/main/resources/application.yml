@@ -117,22 +117,10 @@ security:
     - /*/api-docs/**
     - /warm-flow-ui/config
 
-# 多租户配置
+# 多租户配置(已停用)
 tenant:
   # 是否开启
-  enable: true
-  # 排除表
-  excludes:
-    - sys_menu
-    - sys_tenant
-    - sys_tenant_package
-    - sys_role_dept
-    - sys_role_menu
-    - sys_user_post
-    - sys_user_role
-    - sys_client
-    - sys_oss_config
-    - flow_spel
+  enable: false
 
 # MyBatisPlus配置
 # https://baomidou.com/config/
@@ -235,19 +223,7 @@ management:
     logfile:
       external-file: ./logs/sys-console.log
 
---- # 默认/推荐使用sse推送
-sse:
-  enabled: true
-  path: /resource/sse
 
---- # websocket
-websocket:
-  # 如果关闭 需要和前端开关一起关闭
-  enabled: false
-  # 路径
-  path: /resource/websocket
-  # 设置访问源地址
-  allowedOrigins: '*'
 
 --- # warm-flow工作流配置
 warm-flow:

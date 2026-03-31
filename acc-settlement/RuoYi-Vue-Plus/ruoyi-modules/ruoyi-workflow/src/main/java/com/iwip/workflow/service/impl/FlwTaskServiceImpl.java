@@ -759,7 +759,7 @@ public class FlwTaskServiceImpl implements IFlwTaskService {
         }
 
         FlowParams flowParams = FlowParams.build().message(bo.getMessage());
-        if (LoginHelper.isSuperAdmin() || LoginHelper.isTenantAdmin()) {
+        if (LoginHelper.isSuperAdmin()) {
             flowParams.ignore(true);
         }
 

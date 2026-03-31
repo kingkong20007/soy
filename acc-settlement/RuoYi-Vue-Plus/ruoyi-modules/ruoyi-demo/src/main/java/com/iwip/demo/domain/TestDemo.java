@@ -1,7 +1,7 @@
 package com.iwip.demo.domain;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.iwip.common.tenant.core.TenantEntity;
+import com.iwip.common.mybatis.core.domain.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -16,7 +16,7 @@ import java.io.Serial;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("test_demo")
-public class TestDemo extends TenantEntity {
+public class TestDemo extends BaseEntity {
 
     @Serial
     private static final long serialVersionUID = 1L;

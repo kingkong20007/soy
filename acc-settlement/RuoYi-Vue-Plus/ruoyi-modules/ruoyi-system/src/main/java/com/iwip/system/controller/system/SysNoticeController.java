@@ -1,7 +1,6 @@
 package com.iwip.system.controller.system;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
-import lombok.RequiredArgsConstructor;
 import com.iwip.common.core.domain.R;
 import com.iwip.common.core.service.DictService;
 import com.iwip.common.idempotent.annotation.RepeatSubmit;
@@ -9,11 +8,11 @@ import com.iwip.common.log.annotation.Log;
 import com.iwip.common.log.enums.BusinessType;
 import com.iwip.common.mybatis.core.page.PageQuery;
 import com.iwip.common.mybatis.core.page.TableDataInfo;
-import com.iwip.common.sse.utils.SseMessageUtils;
 import com.iwip.common.web.core.BaseController;
 import com.iwip.system.domain.bo.SysNoticeBo;
 import com.iwip.system.domain.vo.SysNoticeVo;
 import com.iwip.system.service.ISysNoticeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -63,8 +62,9 @@ public class SysNoticeController extends BaseController {
         if (rows <= 0) {
             return R.fail();
         }
-        String type = dictService.getDictLabel("sys_notice_type", notice.getNoticeType());
-        SseMessageUtils.publishAll("[" + type + "] " + notice.getNoticeTitle());
+        // 既然 SSE 模块已删除，不再进行前端实时消息广播
+        // String type = dictService.getDictLabel("sys_notice_type", notice.getNoticeType());
+        // SseMessageUtils.publishAll("[" + type + "] " + notice.getNoticeTitle());
         return R.ok();
     }
 

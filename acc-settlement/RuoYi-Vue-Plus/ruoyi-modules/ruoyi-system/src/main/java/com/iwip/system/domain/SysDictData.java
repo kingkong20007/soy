@@ -2,10 +2,10 @@ package com.iwip.system.domain;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.iwip.common.core.constant.SystemConstants;
+import com.iwip.common.mybatis.core.domain.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import com.iwip.common.core.constant.SystemConstants;
-import com.iwip.common.tenant.core.TenantEntity;
 
 /**
  * 字典数据表 sys_dict_data
@@ -16,7 +16,7 @@ import com.iwip.common.tenant.core.TenantEntity;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("sys_dict_data")
-public class SysDictData extends TenantEntity {
+public class SysDictData extends BaseEntity {
 
     /**
      * 字典编码

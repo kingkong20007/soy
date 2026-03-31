@@ -2,9 +2,9 @@ package com.iwip.system.domain;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.iwip.common.mybatis.core.domain.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import com.iwip.common.tenant.core.TenantEntity;
 
 import java.io.Serial;
 
@@ -16,7 +16,7 @@ import java.io.Serial;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("sys_social")
-public class SysSocial extends TenantEntity {
+public class SysSocial extends BaseEntity {
 
     @Serial
     private static final long serialVersionUID = 1L;

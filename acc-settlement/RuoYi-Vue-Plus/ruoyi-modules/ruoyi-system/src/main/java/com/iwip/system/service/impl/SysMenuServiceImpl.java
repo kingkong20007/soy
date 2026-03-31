@@ -1,12 +1,9 @@
 package com.iwip.system.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.convert.Convert;
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import com.iwip.common.core.constant.Constants;
 import com.iwip.common.core.constant.SystemConstants;
 import com.iwip.common.core.utils.MapstructUtils;
@@ -17,7 +14,6 @@ import com.iwip.common.satoken.utils.LoginHelper;
 import com.iwip.system.domain.SysMenu;
 import com.iwip.system.domain.SysRole;
 import com.iwip.system.domain.SysRoleMenu;
-import com.iwip.system.domain.SysTenantPackage;
 import com.iwip.system.domain.bo.SysMenuBo;
 import com.iwip.system.domain.vo.MetaVo;
 import com.iwip.system.domain.vo.RouterVo;
@@ -25,8 +21,9 @@ import com.iwip.system.domain.vo.SysMenuVo;
 import com.iwip.system.mapper.SysMenuMapper;
 import com.iwip.system.mapper.SysRoleMapper;
 import com.iwip.system.mapper.SysRoleMenuMapper;
-import com.iwip.system.mapper.SysTenantPackageMapper;
 import com.iwip.system.service.ISysMenuService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,7 +45,6 @@ public class SysMenuServiceImpl implements ISysMenuService {
     private final SysMenuMapper baseMapper;
     private final SysRoleMapper roleMapper;
     private final SysRoleMenuMapper roleMenuMapper;
-    private final SysTenantPackageMapper tenantPackageMapper;
 
     /**
      * 根据用户查询系统菜单列表
@@ -142,35 +138,6 @@ public class SysMenuServiceImpl implements ISysMenuService {
     public List<Long> selectMenuListByRoleId(Long roleId) {
         SysRole role = roleMapper.selectById(roleId);
         return baseMapper.selectMenuListByRoleId(roleId, role.getMenuCheckStrictly());
-    }
-
-    /**
-     * 根据租户套餐ID查询菜单树信息
-     *
-     * @param packageId 租户套餐ID
-     * @return 选中菜单列表
-     */
-    @Override
-    public List<Long> selectMenuListByPackageId(Long packageId) {
-        SysTenantPackage tenantPackage = tenantPackageMapper.selectById(packageId);
-        List<Long> menuIds = StringUtils.splitTo(tenantPackage.getMenuIds(), Convert::toLong);
-        if (CollUtil.isEmpty(menuIds)) {
-            return List.of();
-        }
-        List<Long> parentIds = null;
-        if (tenantPackage.getMenuCheckStrictly()) {
-            parentIds = baseMapper.selectObjs(new LambdaQueryWrapper<SysMenu>()
-                .select(SysMenu::getParentId)
-                .in(SysMenu::getMenuId, menuIds), x -> {
-                return Convert.toLong(x);
-            });
-        }
-        return baseMapper.selectObjs(new LambdaQueryWrapper<SysMenu>()
-            .select(SysMenu::getMenuId)
-            .in(SysMenu::getMenuId, menuIds)
-            .notIn(CollUtil.isNotEmpty(parentIds), SysMenu::getMenuId, parentIds), x -> {
-            return Convert.toLong(x);
-        });
     }
 
     /**

@@ -41,8 +41,6 @@
         <ip2region.version>3.3.4</ip2region.version>
         <!-- OSS 配置 -->
         <aws.sdk.version>2.28.22</aws.sdk.version>
-        <!-- SMS 配置 -->
-        <sms4j.version>3.3.5</sms4j.version>
         <!-- 限制框架中的fastjson版本 -->
         <fastjson.version>1.2.83</fastjson.version>
         <!-- 面向运行时的D-ORM依赖 -->
@@ -237,12 +235,6 @@
                 <groupId>software.amazon.awssdk</groupId>
                 <artifactId>netty-nio-client</artifactId>
                 <version>${aws.sdk.version}</version>
-            </dependency>
-            <!--短信sms4j-->
-            <dependency>
-                <groupId>org.dromara.sms4j</groupId>
-                <artifactId>sms4j-spring-boot-starter</artifactId>
-                <version>${sms4j.version}</version>
             </dependency>
 
             <dependency>

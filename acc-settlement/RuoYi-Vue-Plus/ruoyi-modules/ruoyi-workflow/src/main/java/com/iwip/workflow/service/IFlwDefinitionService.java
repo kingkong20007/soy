@@ -68,11 +68,4 @@ public interface IFlwDefinitionService {
      * @return 结果
      */
     boolean removeDef(List<Long> ids);
-
-    /**
-     * 新增租户流程定义
-     *
-     * @param tenantId 租户id
-     */
-    void syncDef(String tenantId);
 }

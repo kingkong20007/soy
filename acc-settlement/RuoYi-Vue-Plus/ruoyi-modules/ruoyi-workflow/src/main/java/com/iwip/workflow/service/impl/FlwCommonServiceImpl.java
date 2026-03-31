@@ -9,8 +9,6 @@ import com.iwip.common.core.exception.ServiceException;
 import com.iwip.common.core.utils.SpringUtils;
 import com.iwip.common.core.utils.StreamUtils;
 import com.iwip.common.core.utils.StringUtils;
-import com.iwip.common.sse.dto.SseMessageDto;
-import com.iwip.common.sse.utils.SseMessageUtils;
 import org.dromara.warm.flow.core.FlowEngine;
 import org.dromara.warm.flow.core.entity.Node;
 import org.dromara.warm.flow.orm.entity.FlowTask;
@@ -91,10 +89,7 @@ public class FlwCommonServiceImpl implements IFlwCommonService {
             try {
                 switch (messageTypeEnum) {
                     case SYSTEM_MESSAGE -> {
-                        SseMessageDto dto = new SseMessageDto();
-                        dto.setUserIds(userIds);
-                        dto.setMessage(message);
-                        SseMessageUtils.publishMessage(dto);
+                        log.info("【系统消息 - TODO】由于 SSE 模块已移除，消息未能推送。用户数量={} 内容={}", userList.size(), message);
                     }
                     //todo：工作流-发邮件
 //                    case EMAIL_MESSAGE -> MailUtils.sendText(emails, subject, message);

@@ -4,11 +4,9 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.crypto.digest.BCrypt;
-import lombok.RequiredArgsConstructor;
 import com.iwip.common.core.domain.R;
 import com.iwip.common.core.utils.StringUtils;
 import com.iwip.common.core.utils.file.MimeTypeUtils;
-import com.iwip.common.encrypt.annotation.ApiEncrypt;
 import com.iwip.common.idempotent.annotation.RepeatSubmit;
 import com.iwip.common.log.annotation.Log;
 import com.iwip.common.log.enums.BusinessType;
@@ -19,9 +17,9 @@ import com.iwip.system.domain.bo.SysUserBo;
 import com.iwip.system.domain.bo.SysUserPasswordBo;
 import com.iwip.system.domain.bo.SysUserProfileBo;
 import com.iwip.system.domain.vo.ProfileUserVo;
-import com.iwip.system.domain.vo.SysOssVo;
 import com.iwip.system.domain.vo.SysUserVo;
 import com.iwip.system.service.ISysUserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -86,7 +84,7 @@ public class SysProfileController extends BaseController {
      * @param bo 新旧密码
      */
     @RepeatSubmit
-    @ApiEncrypt
+//    @ApiEncrypt
     @Log(title = "个人信息", businessType = BusinessType.UPDATE)
     @PutMapping("/updatePwd")
     public R<Void> updatePwd(@Validated @RequestBody SysUserPasswordBo bo) {

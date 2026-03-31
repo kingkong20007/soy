@@ -19,7 +19,6 @@
         <module>ruoyi-common-job</module>
         <module>ruoyi-common-log</module>
         <module>ruoyi-common-mybatis</module>
-        <module>ruoyi-common-ratelimiter</module>
         <module>ruoyi-common-redis</module>
         <module>ruoyi-common-satoken</module>
         <module>ruoyi-common-security</module>
@@ -27,10 +26,6 @@
         <module>ruoyi-common-translation</module>
         <module>ruoyi-common-sensitive</module>
         <module>ruoyi-common-json</module>
-        <module>ruoyi-common-encrypt</module>
-        <module>ruoyi-common-tenant</module>
-        <module>ruoyi-common-websocket</module>
-        <module>ruoyi-common-sse</module>
     </modules>
 
     <artifactId>ruoyi-common</artifactId>

@@ -5,18 +5,11 @@ import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.crypto.digest.BCrypt;
-import com.iwip.system.domain.vo.*;
-import com.iwip.system.listener.SysUserImportListener;
-import com.iwip.system.service.*;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.constraints.NotNull;
-import lombok.RequiredArgsConstructor;
 import com.iwip.common.core.constant.SystemConstants;
 import com.iwip.common.core.domain.R;
 import com.iwip.common.core.domain.model.LoginUser;
 import com.iwip.common.core.utils.StreamUtils;
 import com.iwip.common.core.utils.StringUtils;
-import com.iwip.common.encrypt.annotation.ApiEncrypt;
 import com.iwip.common.excel.core.ExcelResult;
 import com.iwip.common.excel.utils.ExcelUtil;
 import com.iwip.common.idempotent.annotation.RepeatSubmit;
@@ -26,12 +19,20 @@ import com.iwip.common.mybatis.core.page.PageQuery;
 import com.iwip.common.mybatis.core.page.TableDataInfo;
 import com.iwip.common.mybatis.helper.DataPermissionHelper;
 import com.iwip.common.satoken.utils.LoginHelper;
-import com.iwip.common.tenant.helper.TenantHelper;
 import com.iwip.common.web.core.BaseController;
 import com.iwip.system.domain.bo.SysDeptBo;
 import com.iwip.system.domain.bo.SysPostBo;
 import com.iwip.system.domain.bo.SysRoleBo;
 import com.iwip.system.domain.bo.SysUserBo;
+import com.iwip.system.domain.vo.*;
+import com.iwip.system.listener.SysUserImportListener;
+import com.iwip.system.service.ISysDeptService;
+import com.iwip.system.service.ISysPostService;
+import com.iwip.system.service.ISysRoleService;
+import com.iwip.system.service.ISysUserService;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -108,11 +109,6 @@ public class SysUserController extends BaseController {
     public R<UserInfoVo> getInfo() {
         UserInfoVo userInfoVo = new UserInfoVo();
         LoginUser loginUser = LoginHelper.getLoginUser();
-        if (TenantHelper.isEnable() && LoginHelper.isSuperAdmin()) {
-            // 超级管理员 如果重新加载用户信息需清除动态租户
-            TenantHelper.clearDynamic();
-        }
-
         SysUserVo user = DataPermissionHelper.ignore(() -> userService.selectUserById(loginUser.getUserId()));
         if (ObjectUtil.isNull(user)) {
             return R.fail("没有权限访问用户数据!");
@@ -230,7 +226,6 @@ public class SysUserController extends BaseController {
     /**
      * 重置密码
      */
-    @ApiEncrypt
     @SaCheckPermission("system:user:resetPwd")
     @Log(title = "用户管理", businessType = BusinessType.UPDATE)
     @RepeatSubmit()

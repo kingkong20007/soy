@@ -13,14 +13,11 @@ import com.iwip.common.core.utils.DateUtils;
 import com.iwip.common.core.utils.MessageUtils;
 import com.iwip.common.core.utils.StringUtils;
 import com.iwip.common.core.utils.ValidatorUtils;
-import com.iwip.common.encrypt.annotation.ApiEncrypt;
 import com.iwip.common.json.utils.JsonUtils;
 import com.iwip.common.satoken.utils.LoginHelper;
 import com.iwip.common.social.config.properties.SocialLoginConfigProperties;
 import com.iwip.common.social.config.properties.SocialProperties;
 import com.iwip.common.social.utils.SocialUtils;
-import com.iwip.common.sse.dto.SseMessageDto;
-import com.iwip.common.sse.utils.SseMessageUtils;
 import com.iwip.system.domain.vo.SysClientVo;
 import com.iwip.system.service.ISysClientService;
 import com.iwip.system.service.ISysConfigService;
@@ -73,7 +70,6 @@ public class AuthController {
      * @param body 登录信息
      * @return 结果
      */
-    @ApiEncrypt
     @PostMapping("/login")
     public R<LoginVo> login(@RequestBody String body) {
         LoginBody loginBody = JsonUtils.parseObject(body, LoginBody.class);
@@ -94,13 +90,6 @@ public class AuthController {
         // 登录
         LoginVo loginVo = IAuthStrategy.login(body, client, grantType);
 
-        Long userId = LoginHelper.getUserId();
-        scheduledExecutorService.schedule(() -> {
-            SseMessageDto dto = new SseMessageDto();
-            dto.setMessage(DateUtils.getTodayHour(new Date()) + "好，欢迎登录 RuoYi-Vue-Plus 后台管理系统");
-            dto.setUserIds(List.of(userId));
-            SseMessageUtils.publishMessage(dto);
-        }, 5, TimeUnit.SECONDS);
         return R.ok(loginVo);
     }
 
@@ -176,58 +165,13 @@ public class AuthController {
     /**
      * 用户注册
      */
-    @ApiEncrypt
     @PostMapping("/register")
     public R<Void> register(@Validated @RequestBody RegisterBody user) {
-        if (!configService.selectRegisterEnabled(user.getTenantId())) {
+        if (!configService.selectRegisterEnabled()) {
             return R.fail("当前系统没有开启注册功能！");
         }
         registerService.register(user);
         return R.ok();
     }
-
-//    /**
-//     * 登录页面租户下拉框
-//     *
-//     * @return 租户列表
-//     */
-//    @RateLimiter(time = 60, count = 20, limitType = LimitType.IP)
-//    @GetMapping("/tenant/list")
-//    public R<LoginTenantVo> tenantList(HttpServletRequest request) throws Exception {
-//        // 返回对象
-//        LoginTenantVo result = new LoginTenantVo();
-//        boolean enable = TenantHelper.isEnable();
-//        result.setTenantEnabled(enable);
-//        // 如果未开启租户这直接返回
-//        if (!enable) {
-//            return R.ok(result);
-//        }
-//
-//        List<SysTenantVo> tenantList = tenantService.queryList(new SysTenantBo());
-//        List<TenantListVo> voList = MapstructUtils.convert(tenantList, TenantListVo.class);
-//        try {
-//            // 如果只超管返回所有租户
-//            if (LoginHelper.isSuperAdmin()) {
-//                result.setVoList(voList);
-//                return R.ok(result);
-//            }
-//        } catch (NotLoginException ignored) {
-//        }
-//
-//        // 获取域名
-//        String host;
-//        String referer = request.getHeader("referer");
-//        if (StringUtils.isNotBlank(referer)) {
-//            // 这里从referer中取值是为了本地使用hosts添加虚拟域名，方便本地环境调试
-//            host = referer.split("//")[1].split("/")[0];
-//        } else {
-//            host = new URL(request.getRequestURL().toString()).getHost();
-//        }
-//        // 根据域名进行筛选
-//        List<TenantListVo> list = StreamUtils.filter(voList, vo ->
-//            StringUtils.equalsIgnoreCase(vo.getDomain(), host));
-//        result.setVoList(CollUtil.isNotEmpty(list) ? list : voList);
-//        return R.ok(result);
-//    }
 
 }

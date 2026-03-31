@@ -32,7 +32,6 @@ import java.util.Set;
 public class LoginHelper {
 
     public static final String LOGIN_USER_KEY = "loginUser";
-    public static final String TENANT_KEY = "tenantId";
     public static final String USER_KEY = "userId";
     public static final String USER_NAME_KEY = "userName";
     public static final String DEPT_KEY = "deptId";
@@ -50,8 +49,7 @@ public class LoginHelper {
     public static void login(LoginUser loginUser, SaLoginParameter model) {
         model = ObjectUtil.defaultIfNull(model, new SaLoginParameter());
         StpUtil.login(loginUser.getLoginId(),
-            model.setExtra(TENANT_KEY, loginUser.getTenantId())
-                .setExtra(USER_KEY, loginUser.getUserId())
+            model.setExtra(USER_KEY, loginUser.getUserId())
                 .setExtra(USER_NAME_KEY, loginUser.getUsername())
                 .setExtra(DEPT_KEY, loginUser.getDeptId())
                 .setExtra(DEPT_NAME_KEY, loginUser.getDeptName())
@@ -103,13 +101,6 @@ public class LoginHelper {
      */
     public static String getUsername() {
         return Convert.toStr(getExtra(USER_NAME_KEY));
-    }
-
-    /**
-     * 获取租户ID
-     */
-    public static String getTenantId() {
-        return Convert.toStr(getExtra(TENANT_KEY));
     }
 
     /**

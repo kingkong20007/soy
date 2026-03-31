@@ -4,9 +4,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.iwip.common.mybatis.core.domain.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import com.iwip.common.tenant.core.TenantEntity;
 
 import java.io.Serial;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("flow_category")
-public class FlowCategory extends TenantEntity {
+public class FlowCategory extends BaseEntity {
 
     @Serial
     private static final long serialVersionUID = 1L;

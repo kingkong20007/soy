@@ -19,7 +19,6 @@ import com.iwip.common.json.utils.JsonUtils;
 import com.iwip.common.mybatis.core.page.PageQuery;
 import com.iwip.common.mybatis.core.page.TableDataInfo;
 import com.iwip.common.redis.utils.CacheUtils;
-import com.iwip.common.tenant.helper.TenantHelper;
 import com.iwip.system.domain.SysConfig;
 import com.iwip.system.domain.bo.SysConfigBo;
 import com.iwip.system.domain.vo.SysConfigVo;
@@ -85,14 +84,11 @@ public class SysConfigServiceImpl implements ISysConfigService, ConfigService {
     /**
      * 获取注册开关
      *
-     * @param tenantId 租户id
      * @return true开启，false关闭
      */
     @Override
-    public boolean selectRegisterEnabled(String tenantId) {
-        String configValue = TenantHelper.dynamic(tenantId, () ->
-            this.selectConfigByKey("sys.account.registerUser")
-        );
+    public boolean selectRegisterEnabled() {
+        String configValue = this.selectConfigByKey("sys.account.registerUser");
         return Convert.toBool(configValue);
     }
 

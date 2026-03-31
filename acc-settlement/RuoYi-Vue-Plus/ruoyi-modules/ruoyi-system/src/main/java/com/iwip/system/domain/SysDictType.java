@@ -2,7 +2,7 @@ package com.iwip.system.domain;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.iwip.common.tenant.core.TenantEntity;
+import com.iwip.common.mybatis.core.domain.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("sys_dict_type")
-public class SysDictType extends TenantEntity {
+public class SysDictType extends BaseEntity {
 
     /**
      * 字典主键

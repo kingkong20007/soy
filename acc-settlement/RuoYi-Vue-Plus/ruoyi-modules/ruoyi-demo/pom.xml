@@ -65,32 +65,12 @@
 
         <dependency>
             <groupId>com.iwip</groupId>
-            <artifactId>ruoyi-common-ratelimiter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.iwip</groupId>
             <artifactId>ruoyi-common-translation</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.iwip</groupId>
             <artifactId>ruoyi-common-sensitive</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.iwip</groupId>
-            <artifactId>ruoyi-common-encrypt</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.iwip</groupId>
-            <artifactId>ruoyi-common-tenant</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.iwip</groupId>
-            <artifactId>ruoyi-common-websocket</artifactId>
         </dependency>
 
     </dependencies>

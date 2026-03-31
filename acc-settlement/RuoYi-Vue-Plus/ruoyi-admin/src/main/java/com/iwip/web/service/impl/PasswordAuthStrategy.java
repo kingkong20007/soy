@@ -5,8 +5,6 @@ import cn.dev33.satoken.stp.parameter.SaLoginParameter;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.crypto.digest.BCrypt;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import com.iwip.common.core.constant.Constants;
 import com.iwip.common.core.constant.GlobalConstants;
 import com.iwip.common.core.constant.SystemConstants;
@@ -22,7 +20,6 @@ import com.iwip.common.core.utils.ValidatorUtils;
 import com.iwip.common.json.utils.JsonUtils;
 import com.iwip.common.redis.utils.RedisUtils;
 import com.iwip.common.satoken.utils.LoginHelper;
-import com.iwip.common.tenant.helper.TenantHelper;
 import com.iwip.common.web.config.properties.CaptchaProperties;
 import com.iwip.system.domain.SysUser;
 import com.iwip.system.domain.vo.SysClientVo;
@@ -31,6 +28,8 @@ import com.iwip.system.mapper.SysUserMapper;
 import com.iwip.web.domain.vo.LoginVo;
 import com.iwip.web.service.IAuthStrategy;
 import com.iwip.web.service.SysLoginService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
@@ -51,7 +50,6 @@ public class PasswordAuthStrategy implements IAuthStrategy {
     public LoginVo login(String body, SysClientVo client) {
         PasswordLoginBody loginBody = JsonUtils.parseObject(body, PasswordLoginBody.class);
         ValidatorUtils.validate(loginBody);
-        String tenantId = loginBody.getTenantId();
         String username = loginBody.getUsername();
         String password = loginBody.getPassword();
         String code = loginBody.getCode();
@@ -60,14 +58,19 @@ public class PasswordAuthStrategy implements IAuthStrategy {
         boolean captchaEnabled = captchaProperties.getEnable();
         // 验证码开关
         if (captchaEnabled) {
-            validateCaptcha(tenantId, username, code, uuid);
+            validateCaptcha(username, code, uuid);
         }
-        LoginUser loginUser = TenantHelper.dynamic(tenantId, () -> {
-            SysUserVo user = loadUserByUsername(username);
-            loginService.checkLogin(LoginType.PASSWORD, tenantId, username, () -> !BCrypt.checkpw(password, user.getPassword()));
-            // 此处可根据登录用户的数据不同 自行创建 loginUser
-            return loginService.buildLoginUser(user);
-        });
+        // ========= 核心修改区 开始 =========
+        // 撕掉 TenantHelper.dynamic 包装，直接调用内部逻辑
+        SysUserVo user = loadUserByUsername(username);
+
+        // 注意：这里的 loginService.checkLogin 原本有 tenantId 参数，现在去掉了
+        loginService.checkLogin(LoginType.PASSWORD, username, () -> !BCrypt.checkpw(password, user.getPassword()));
+
+        // 此处可根据登录用户的数据不同 自行创建 loginUser
+        LoginUser loginUser = loginService.buildLoginUser(user);
+        // ========= 核心修改区 结束 =========
+
         loginUser.setClientKey(client.getClientKey());
         loginUser.setDeviceType(client.getDeviceType());
         SaLoginParameter model = new SaLoginParameter();
@@ -94,16 +97,16 @@ public class PasswordAuthStrategy implements IAuthStrategy {
      * @param code     验证码
      * @param uuid     唯一标识
      */
-    private void validateCaptcha(String tenantId, String username, String code, String uuid) {
+    private void validateCaptcha(String username, String code, String uuid) {
         String verifyKey = GlobalConstants.CAPTCHA_CODE_KEY + StringUtils.blankToDefault(uuid, "");
         String captcha = RedisUtils.getCacheObject(verifyKey);
         RedisUtils.deleteObject(verifyKey);
         if (captcha == null) {
-            loginService.recordLogininfor(tenantId, username, Constants.LOGIN_FAIL, MessageUtils.message("user.jcaptcha.expire"));
+            loginService.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.jcaptcha.expire"));
             throw new CaptchaExpireException();
         }
         if (!StringUtils.equalsIgnoreCase(code, captcha)) {
-            loginService.recordLogininfor(tenantId, username, Constants.LOGIN_FAIL, MessageUtils.message("user.jcaptcha.error"));
+            loginService.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.jcaptcha.error"));
             throw new CaptchaException();
         }
     }

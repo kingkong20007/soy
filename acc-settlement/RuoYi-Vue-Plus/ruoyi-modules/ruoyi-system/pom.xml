@@ -50,11 +50,6 @@
 
         <dependency>
             <groupId>com.iwip</groupId>
-            <artifactId>ruoyi-common-tenant</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.iwip</groupId>
             <artifactId>ruoyi-common-security</artifactId>
         </dependency>
 
@@ -71,21 +66,6 @@
         <dependency>
             <groupId>com.iwip</groupId>
             <artifactId>ruoyi-common-sensitive</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.iwip</groupId>
-            <artifactId>ruoyi-common-encrypt</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.iwip</groupId>
-            <artifactId>ruoyi-common-websocket</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.iwip</groupId>
-            <artifactId>ruoyi-common-sse</artifactId>
         </dependency>
 
     </dependencies>

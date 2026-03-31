@@ -61,24 +61,10 @@
                 <version>${revision}</version>
             </dependency>
 
-            <!-- 邮件服务 -->
-            <dependency>
-                <groupId>com.iwip</groupId>
-                <artifactId>ruoyi-common-mail</artifactId>
-                <version>${revision}</version>
-            </dependency>
-
             <!-- 数据库服务 -->
             <dependency>
                 <groupId>com.iwip</groupId>
                 <artifactId>ruoyi-common-mybatis</artifactId>
-                <version>${revision}</version>
-            </dependency>
-
-            <!-- 限流 -->
-            <dependency>
-                <groupId>com.iwip</groupId>
-                <artifactId>ruoyi-common-ratelimiter</artifactId>
                 <version>${revision}</version>
             </dependency>
 
@@ -100,13 +86,6 @@
             <dependency>
                 <groupId>com.iwip</groupId>
                 <artifactId>ruoyi-common-security</artifactId>
-                <version>${revision}</version>
-            </dependency>
-
-            <!-- 短信模块 -->
-            <dependency>
-                <groupId>com.iwip</groupId>
-                <artifactId>ruoyi-common-sms</artifactId>
                 <version>${revision}</version>
             </dependency>
 
@@ -141,34 +120,6 @@
             <dependency>
                 <groupId>com.iwip</groupId>
                 <artifactId>ruoyi-common-json</artifactId>
-                <version>${revision}</version>
-            </dependency>
-
-            <!-- 数据库加解密模块 -->
-            <dependency>
-                <groupId>com.iwip</groupId>
-                <artifactId>ruoyi-common-encrypt</artifactId>
-                <version>${revision}</version>
-            </dependency>
-
-            <!-- 租户模块 -->
-            <dependency>
-                <groupId>com.iwip</groupId>
-                <artifactId>ruoyi-common-tenant</artifactId>
-                <version>${revision}</version>
-            </dependency>
-
-            <!-- WebSocket模块 -->
-            <dependency>
-                <groupId>com.iwip</groupId>
-                <artifactId>ruoyi-common-websocket</artifactId>
-                <version>${revision}</version>
-            </dependency>
-
-            <!-- SSE模块 -->
-            <dependency>
-                <groupId>com.iwip</groupId>
-                <artifactId>ruoyi-common-sse</artifactId>
                 <version>${revision}</version>
             </dependency>
 

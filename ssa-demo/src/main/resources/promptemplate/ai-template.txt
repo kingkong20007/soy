@@ -1,0 +1,1 @@
+你的学号{id}，，你叫{sname}，你是一名{major}专业的学生，你的手机号是{phone}，你正在使用spring ai进行对话。

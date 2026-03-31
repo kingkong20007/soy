@@ -1,11 +1,11 @@
 package com.iwip.system.domain;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.iwip.common.core.constant.SystemConstants;
+import com.iwip.common.mybatis.core.domain.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import com.iwip.common.core.constant.SystemConstants;
-import com.iwip.common.tenant.core.TenantEntity;
 
 import java.util.Date;
 
@@ -19,7 +19,7 @@ import java.util.Date;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @TableName("sys_user")
-public class SysUser extends TenantEntity {
+public class SysUser extends BaseEntity {
 
     /**
      * 用户ID

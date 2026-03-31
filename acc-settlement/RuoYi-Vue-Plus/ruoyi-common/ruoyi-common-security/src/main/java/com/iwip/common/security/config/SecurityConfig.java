@@ -39,8 +39,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class SecurityConfig implements WebMvcConfigurer {
 
     private final SecurityProperties securityProperties;
-    @Value("${sse.path}")
-    private String ssePath;
 
     /**
      * 注册sa-token的拦截器
@@ -82,8 +80,7 @@ public class SecurityConfig implements WebMvcConfigurer {
                     });
             })).addPathPatterns("/**")
             // 排除不需要拦截的路径
-            .excludePathPatterns(securityProperties.getExcludes())
-            .excludePathPatterns(ssePath);
+            .excludePathPatterns(securityProperties.getExcludes());
     }
 
     /**

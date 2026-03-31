@@ -19,7 +19,6 @@ import com.iwip.common.json.utils.JsonUtils;
 import com.iwip.common.satoken.utils.LoginHelper;
 import com.iwip.common.social.config.properties.SocialProperties;
 import com.iwip.common.social.utils.SocialUtils;
-import com.iwip.common.tenant.helper.TenantHelper;
 import com.iwip.system.domain.vo.SysClientVo;
 import com.iwip.system.domain.vo.SysSocialVo;
 import com.iwip.system.domain.vo.SysUserVo;
@@ -70,21 +69,9 @@ public class SocialAuthStrategy implements IAuthStrategy {
         if (CollUtil.isEmpty(list)) {
             throw new ServiceException("你还没有绑定第三方账号，绑定后才可以登录！");
         }
-        SysSocialVo social;
-        if (TenantHelper.isEnable()) {
-            Optional<SysSocialVo> opt = StreamUtils.findAny(list, x -> x.getTenantId().equals(loginBody.getTenantId()));
-            if (opt.isEmpty()) {
-                throw new ServiceException("对不起，你没有权限登录当前租户！");
-            }
-            social = opt.get();
-        } else {
-            social = list.get(0);
-        }
-        LoginUser loginUser = TenantHelper.dynamic(social.getTenantId(), () -> {
-            SysUserVo user = loadUser(social.getUserId());
-            // 此处可根据登录用户的数据不同 自行创建 loginUser 属性不够用继承扩展就行了
-            return loginService.buildLoginUser(user);
-        });
+        SysSocialVo social = list.get(0);
+        SysUserVo user = loadUser(social.getUserId());
+        LoginUser loginUser = loginService.buildLoginUser(user);
         loginUser.setClientKey(client.getClientKey());
         loginUser.setDeviceType(client.getDeviceType());
         SaLoginParameter model = new SaLoginParameter();
