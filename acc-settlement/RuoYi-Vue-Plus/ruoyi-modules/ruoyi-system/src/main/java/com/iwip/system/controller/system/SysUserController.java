@@ -56,7 +56,6 @@ public class SysUserController extends BaseController {
     private final ISysRoleService roleService;
     private final ISysPostService postService;
     private final ISysDeptService deptService;
-//    private final ISysTenantService tenantService;
 
     /**
      * 获取用户列表
@@ -164,12 +163,6 @@ public class SysUserController extends BaseController {
         } else if (StringUtils.isNotEmpty(user.getEmail()) && !userService.checkEmailUnique(user)) {
             return R.fail("新增用户'" + user.getUserName() + "'失败，邮箱账号已存在");
         }
-        //todo:去掉多租户校验
-//        if (TenantHelper.isEnable()) {
-//            if (!tenantService.checkAccountBalance(TenantHelper.getTenantId())) {
-//                return R.fail("当前租户下用户名额不足，请联系管理员");
-//            }
-//        }
         user.setPassword(BCrypt.hashpw(user.getPassword()));
         return toAjax(userService.insertUser(user));
     }

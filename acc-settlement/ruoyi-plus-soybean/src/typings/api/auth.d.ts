@@ -11,8 +11,6 @@ declare namespace Api {
       clientId?: string;
       /** 授权类型 */
       grantType?: string;
-      /** 租户ID */
-      tenantId?: string;
       /** 验证码 */
       code?: string;
       /** 唯一标识 */
@@ -80,23 +78,6 @@ declare namespace Api {
       permissions: string[];
     }
 
-    /** tenant */
-    interface Tenant {
-      /** 企业名称 */
-      companyName: string;
-      /** 域名 */
-      domain: string;
-      /** 租户编号 */
-      tenantId: string;
-    }
-
-    /** login tenant */
-    interface LoginTenant {
-      /** 租户开关 */
-      tenantEnabled: boolean;
-      /** 租户列表 */
-      voList: Tenant[];
-    }
 
     interface CaptchaCode {
       /** 是否开启验证码 */

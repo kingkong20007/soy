@@ -9,12 +9,10 @@ import com.iwip.common.core.domain.R;
 import com.iwip.common.core.domain.model.LoginBody;
 import com.iwip.common.core.domain.model.RegisterBody;
 import com.iwip.common.core.domain.model.SocialLoginBody;
-import com.iwip.common.core.utils.DateUtils;
 import com.iwip.common.core.utils.MessageUtils;
 import com.iwip.common.core.utils.StringUtils;
 import com.iwip.common.core.utils.ValidatorUtils;
 import com.iwip.common.json.utils.JsonUtils;
-import com.iwip.common.satoken.utils.LoginHelper;
 import com.iwip.common.social.config.properties.SocialLoginConfigProperties;
 import com.iwip.common.social.config.properties.SocialProperties;
 import com.iwip.common.social.utils.SocialUtils;
@@ -36,15 +34,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 /**
- * 认证 todo：去掉多租户
+ * 认证
  *
  * @author Lion Li
  */
@@ -85,8 +80,6 @@ public class AuthController {
         } else if (!SystemConstants.NORMAL.equals(client.getStatus())) {
             return R.fail(MessageUtils.message("auth.grant.type.blocked"));
         }
-        // 校验租户 todo:登录去掉多租户
-//        loginService.checkTenant(loginBody.getTenantId());
         // 登录
         LoginVo loginVo = IAuthStrategy.login(body, client, grantType);
 
@@ -101,14 +94,13 @@ public class AuthController {
      */
     @GetMapping("/binding/{source}")
     public R<String> authBinding(@PathVariable("source") String source,
-                                 @RequestParam String tenantId, @RequestParam String domain) {
+                                 @RequestParam String domain) {
         SocialLoginConfigProperties obj = socialProperties.getType().get(source);
         if (ObjectUtil.isNull(obj)) {
             return R.fail(source + "平台账号暂不支持");
         }
         AuthRequest authRequest = SocialUtils.getAuthRequest(source, socialProperties);
         Map<String, String> map = new HashMap<>();
-        map.put("tenantId", tenantId);
         map.put("domain", domain);
         map.put("state", AuthStateUtils.createState());
         String authorizeUrl = authRequest.authorize(Base64.encode(JsonUtils.toJsonString(map), StandardCharsets.UTF_8));
