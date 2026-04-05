@@ -94,6 +94,12 @@
             <artifactId>ip2region</artifactId>
         </dependency>
 
+        <!-- minio 文件存储 -->
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

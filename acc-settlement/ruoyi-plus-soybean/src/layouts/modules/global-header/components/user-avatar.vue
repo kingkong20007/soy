@@ -5,6 +5,7 @@ import { useBoolean } from '@sa/hooks';
 import { useAuthStore } from '@/store/modules/auth';
 import { useRouterPush } from '@/hooks/common/router';
 import { useSvgIcon } from '@/hooks/common/icon';
+import { getFileUrl } from '@/utils/file';
 import defaultAvatar from '@/assets/imgs/soybean.jpg';
 import { $t } from '@/locales';
 
@@ -95,7 +96,7 @@ function handleDropdown(key: DropdownKey) {
           v-if="authStore.userInfo.user?.avatar"
           :size="24"
           round
-          :src="authStore.userInfo.user?.avatar"
+          :src="getFileUrl(authStore.userInfo.user?.avatar)"
           @load="handleAvatarLoad"
           @error="handleAvatarError"
         />

@@ -60,11 +60,8 @@ public class ProfileUserVo implements Serializable {
      */
     private String sex;
 
-    /**
-     * 头像地址
-     */
 //    @Translation(type = TransConstant.OSS_ID_TO_URL)
-    private Long avatar;
+    private String avatar;
 
     /**
      * 最后登录IP

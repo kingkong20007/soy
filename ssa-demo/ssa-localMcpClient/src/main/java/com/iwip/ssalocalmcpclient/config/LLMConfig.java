@@ -10,12 +10,11 @@ import org.springframework.context.annotation.Configuration;
 public class LLMConfig {
 
     @Bean
-    public ChatClient chatClientBuilder(ChatModel chatModel, ToolCallbackProvider tools) {
-       return ChatClient.builder(chatModel)
+    public ChatClient chatClient(ChatClient.Builder builder, ToolCallbackProvider tools) {
+       return builder
                .defaultToolCallbacks(tools.getToolCallbacks())//mcp协议， 配置见yml文件
                .build();
     }
-
 
 
 }

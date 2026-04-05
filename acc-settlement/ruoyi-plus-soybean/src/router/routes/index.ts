@@ -102,18 +102,7 @@ const dynamicConstantRoutes: ElegantRoute[] = [
     }
   },
   {
-    name: 'social-callback',
-    path: '/social-callback',
-    component: 'layout.blank$view.social-callback',
-    meta: {
-      title: 'social-callback',
-      i18nKey: 'route.social-callback',
-      constant: true,
-      hideInMenu: true,
-      icon: 'simple-icons:authy'
-    }
-  },
-  {
+
     name: 'user-center',
     path: '/user-center',
     component: 'layout.base$view.user-center',

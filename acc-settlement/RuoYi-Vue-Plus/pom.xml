@@ -39,15 +39,13 @@
         <justauth.version>1.16.7</justauth.version>
         <!-- 离线IP地址定位库 -->
         <ip2region.version>3.3.4</ip2region.version>
-        <!-- OSS 配置 -->
-        <aws.sdk.version>2.28.22</aws.sdk.version>
+
+        <!-- minio 文件存储 -->
+        <minio.version>8.6.0</minio.version>
         <!-- 限制框架中的fastjson版本 -->
         <fastjson.version>1.2.83</fastjson.version>
         <!-- 面向运行时的D-ORM依赖 -->
         <anyline.version>8.7.3-20251210</anyline.version>
-        <!-- 工作流配置 -->
-        <warm-flow.version>1.8.4</warm-flow.version>
-
         <!-- 插件版本 -->
         <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
         <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
@@ -218,24 +216,13 @@
                 <version>${p6spy.version}</version>
             </dependency>
 
-            <!--  AWS SDK for Java 2.x  -->
+            <!-- minio 文件存储 -->
             <dependency>
-                <groupId>software.amazon.awssdk</groupId>
-                <artifactId>s3</artifactId>
-                <version>${aws.sdk.version}</version>
+                <groupId>io.minio</groupId>
+                <artifactId>minio</artifactId>
+                <version>${minio.version}</version>
             </dependency>
-            <!-- 客户端的性能增强传输管理器 -->
-            <dependency>
-                <groupId>software.amazon.awssdk</groupId>
-                <artifactId>s3-transfer-manager</artifactId>
-                <version>${aws.sdk.version}</version>
-            </dependency>
-            <!-- 适用于 Netty 的客户端 -->
-            <dependency>
-                <groupId>software.amazon.awssdk</groupId>
-                <artifactId>netty-nio-client</artifactId>
-                <version>${aws.sdk.version}</version>
-            </dependency>
+
 
             <dependency>
                 <groupId>de.codecentric</groupId>
@@ -286,17 +273,7 @@
                 <version>${mapstruct-plus.version}</version>
             </dependency>
 
-            <!-- Warm-Flow国产工作流引擎, 在线文档：http://warm-flow.cn/ -->
-            <dependency>
-                <groupId>org.dromara.warm</groupId>
-                <artifactId>warm-flow-mybatis-plus-sb3-starter</artifactId>
-                <version>${warm-flow.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.dromara.warm</groupId>
-                <artifactId>warm-flow-plugin-ui-sb-web</artifactId>
-                <version>${warm-flow.version}</version>
-            </dependency>
+
 
             <!-- JustAuth 的依赖配置-->
             <dependency>
@@ -342,12 +319,6 @@
                 <version>${revision}</version>
             </dependency>
 
-            <!--  工作流模块  -->
-            <dependency>
-                <groupId>com.iwip</groupId>
-                <artifactId>ruoyi-workflow</artifactId>
-                <version>${revision}</version>
-            </dependency>
 
         </dependencies>
     </dependencyManagement>

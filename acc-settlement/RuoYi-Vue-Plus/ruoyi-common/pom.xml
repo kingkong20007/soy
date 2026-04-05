@@ -11,7 +11,6 @@
 
     <modules>
         <module>ruoyi-common-bom</module>
-        <module>ruoyi-common-social</module>
         <module>ruoyi-common-core</module>
         <module>ruoyi-common-doc</module>
         <module>ruoyi-common-excel</module>
@@ -26,6 +25,7 @@
         <module>ruoyi-common-translation</module>
         <module>ruoyi-common-sensitive</module>
         <module>ruoyi-common-json</module>
+        <module>ruoyi-common-minio</module>
     </modules>
 
     <artifactId>ruoyi-common</artifactId>

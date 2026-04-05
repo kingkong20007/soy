@@ -1,0 +1,34 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.iwip</groupId>
+        <artifactId>ruoyi-common</artifactId>
+        <version>5.6.0</version>
+    </parent>
+    <artifactId>ruoyi-common-minio</artifactId>
+
+    <description>
+        ruoyi-common-minio 文件存储
+    </description>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>com.iwip</groupId>
+            <artifactId>ruoyi-common-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.12.0</version>
+        </dependency>
+
+    </dependencies>
+</project>

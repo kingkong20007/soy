@@ -9,6 +9,7 @@ import { defaultTransform, useNaivePaginatedTable, useTableOperate } from '@/hoo
 import { useDict } from '@/hooks/business/dict';
 import { useAuth } from '@/hooks/business/auth';
 import { useDownload } from '@/hooks/business/download';
+import { getFileUrl } from '@/utils/file';
 import ButtonIcon from '@/components/custom/button-icon.vue';
 import { $t } from '@/locales';
 import StatusSwitch from '@/components/custom/status-switch.vue';
@@ -66,7 +67,7 @@ const { columns, columnChecks, data, getData, getDataByPage, loading, mobilePagi
         render: row => {
           return (
             <div class="flex items-center justify-center gap-2">
-              <NAvatar src={row.avatar} class="bg-primary">
+              <NAvatar src={getFileUrl(row.avatar)} class="bg-primary">
                 {row.avatar ? undefined : row.nickName.charAt(0)}
               </NAvatar>
               <div class="max-w-160px flex flex-col">

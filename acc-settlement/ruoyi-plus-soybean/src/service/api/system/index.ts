@@ -5,4 +5,3 @@ export * from './user';
 export * from './dept';
 export * from './role';
 export * from './post';
-export * from './social';

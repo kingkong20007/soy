@@ -101,7 +101,7 @@ sa-token:
   # 在多人登录同一账号时，是否共用一个token (为true时所有登录共用一个token, 为false时每次登录新建一个token)
   is-share: false
   # jwt秘钥
-  jwt-secret-key: abcdefghijklmnopqrstuvwxyz
+  jwt-secret-key: 8f9b2c4d6e1a3f5b7c9d2e4a6f8b1c3d5e7f9a2b4c6d8e0f1a3b5c7d9e2f4a6b
 
 # security配置
 security:
@@ -115,12 +115,8 @@ security:
     - /error
     - /*/api-docs
     - /*/api-docs/**
-    - /warm-flow-ui/config
 
-# 多租户配置(已停用)
-tenant:
-  # 是否开启
-  enable: false
+
 
 # MyBatisPlus配置
 # https://baomidou.com/config/
@@ -154,18 +150,6 @@ mybatis-encryptor:
   publicKey:
   privateKey:
 
-# api接口加密
-api-decrypt:
-  # 是否开启全局接口加密
-  enabled: false
-  # AES 加密头标识
-  headerFlag: encrypt-key
-  # 响应加密公钥 非对称算法的公私钥 如：SM2，RSA 使用者请自行更换
-  # 对应前端解密私钥 MIIBVAIBADANBgkqhkiG9w0BAQEFAASCAT4wggE6AgEAAkEAmc3CuPiGL/LcIIm7zryCEIbl1SPzBkr75E2VMtxegyZ1lYRD+7TZGAPkvIsBcaMs6Nsy0L78n2qh+lIZMpLH8wIDAQABAkEAk82Mhz0tlv6IVCyIcw/s3f0E+WLmtPFyR9/WtV3Y5aaejUkU60JpX4m5xNR2VaqOLTZAYjW8Wy0aXr3zYIhhQQIhAMfqR9oFdYw1J9SsNc+CrhugAvKTi0+BF6VoL6psWhvbAiEAxPPNTmrkmrXwdm/pQQu3UOQmc2vCZ5tiKpW10CgJi8kCIFGkL6utxw93Ncj4exE/gPLvKcT+1Emnoox+O9kRXss5AiAMtYLJDaLEzPrAWcZeeSgSIzbL+ecokmFKSDDcRske6QIgSMkHedwND1olF8vlKsJUGK3BcdtM8w4Xq7BpSBwsloE=
-  publicKey: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJnNwrj4hi/y3CCJu868ghCG5dUj8wZK++RNlTLcXoMmdZWEQ/u02RgD5LyLAXGjLOjbMtC+/J9qofpSGTKSx/MCAwEAAQ==
-  # 请求解密私钥 非对称算法的公私钥 如：SM2，RSA 使用者请自行更换
-  # 对应前端加密公钥 MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAKoR8mX0rGKLqzcWmOzbfj64K8ZIgOdHnzkXSOVOZbFu/TJhZ7rFAN+eaGkl3C4buccQd/EjEsj9ir7ijT7h96MCAwEAAQ==
-  privateKey: MIIBVAIBADANBgkqhkiG9w0BAQEFAASCAT4wggE6AgEAAkEAqhHyZfSsYourNxaY7Nt+PrgrxkiA50efORdI5U5lsW79MmFnusUA355oaSXcLhu5xxB38SMSyP2KvuKNPuH3owIDAQABAkAfoiLyL+Z4lf4Myxk6xUDgLaWGximj20CUf+5BKKnlrK+Ed8gAkM0HqoTt2UZwA5E2MzS4EI2gjfQhz5X28uqxAiEA3wNFxfrCZlSZHb0gn2zDpWowcSxQAgiCstxGUoOqlW8CIQDDOerGKH5OmCJ4Z21v+F25WaHYPxCFMvwxpcw99EcvDQIgIdhDTIqD2jfYjPTY8Jj3EDGPbH2HHuffvflECt3Ek60CIQCFRlCkHpi7hthhYhovyloRYsM+IS9h/0BzlEAuO0ktMQIgSPT3aFAgJYwKpqRYKlLDVcflZFCKY7u3UP8iWi1Qw0Y=
 
 springdoc:
   api-docs:
@@ -173,16 +157,16 @@ springdoc:
     enabled: true
   info:
     # 标题
-    title: '标题：RuoYi-Vue-Plus多租户管理系统_接口文档'
+    title: '标题：RuoYi-Vue-Plus管理系统_接口文档'
     # 描述
     description: '描述：用于管理集团旗下公司的人员信息,具体包括XXX,XXX模块...'
     # 版本
     version: '版本号: ${project.version}'
     # 作者信息
     contact:
-      name: Lion Li
-      email: crazylionli@163.com
-      url: https://gitee.com/dromara/RuoYi-Vue-Plus
+      name: kingkong
+      email: 776347114@qq.com
+      url: ''
   #这里定义了两个分组，可定义多个，也可以不定义
   group-configs:
     - group: 1.演示模块
@@ -193,8 +177,7 @@ springdoc:
       packages-to-scan: org.dromara.system
     - group: 4.代码生成模块
       packages-to-scan: org.dromara.generator
-    - group: 5.工作流模块
-      packages-to-scan: org.dromara.workflow
+
 
 # 防止XSS攻击
 xss:
@@ -224,16 +207,3 @@ management:
       external-file: ./logs/sys-console.log
 
 
-
---- # warm-flow工作流配置
-warm-flow:
-  # 是否开启工作流，默认true
-  enabled: true
-  # 是否开启设计器ui
-  ui: true
-  # 是否显示流程图顶部文字
-  top-text-show: true
-  # 是否渲染节点悬浮提示，默认true
-  node-tooltip: true
-  # 默认Authorization，如果有多个token，用逗号分隔
-  token-name: ${sa-token.token-name},clientid

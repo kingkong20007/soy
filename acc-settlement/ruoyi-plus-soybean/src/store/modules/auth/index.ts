@@ -100,7 +100,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
    *
    * @param [redirect=true] Whether to redirect after login. Default is `true`
    */
-  async function login(loginForm: Api.Auth.PwdLoginForm | Api.Auth.SocialLoginForm, redirect = true) {
+  async function login(loginForm: Api.Auth.PwdLoginForm, redirect = true) {
     startLoading();
 
     const { VITE_APP_CLIENT_ID } = import.meta.env;

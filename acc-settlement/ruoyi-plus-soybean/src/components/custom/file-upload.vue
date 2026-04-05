@@ -2,9 +2,10 @@
 import { computed, defineComponent, useAttrs } from 'vue';
 import type { UploadFileInfo, UploadProps } from 'naive-ui';
 import type { JSX } from 'vue/jsx-runtime';
-import { fetchBatchDeleteOss } from '@/service/api/system/oss';
+// import { fetchBatchDeleteOss } from '@/service/api/system/oss';
 import { getToken } from '@/store/modules/auth/shared';
 import { getServiceBaseURL } from '@/utils/service';
+import { getFileUrl } from '@/utils/file';
 import { AcceptType } from '@/enum/business';
 
 defineOptions({
@@ -23,7 +24,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  action: `/resource/oss/upload`,
+  action: `/resource/file/upload`,
   data: undefined,
   defaultUpload: true,
   showTip: true,
@@ -144,11 +145,11 @@ function handleFinish(options: { file: UploadFileInfo; event?: ProgressEvent }) 
   // @ts-expect-error Ignore type errors
   const responseText = event?.target?.responseText;
   const response = JSON.parse(responseText);
-  const oss: Api.System.Oss = response.data;
-  fileList.value.find(item => item.id === file.id)!.id = String(oss.ossId);
-  file.id = String(oss.ossId);
-  file.url = oss.url;
-  file.name = oss.fileName;
+  const fileData = response.data;
+  fileList.value.find(item => item.id === file.id)!.id = fileData.fileName || fileData.url;
+  file.id = fileData.fileName || fileData.url;
+  file.url = getFileUrl(fileData.url);
+  file.name = fileData.originalName || fileData.fileName;
   if (fileNum === 0) {
     window.$message?.success('上传成功');
   }
@@ -167,8 +168,8 @@ async function handleRemove(file: UploadFileInfo) {
   if (file.status !== 'finished') {
     return false;
   }
-  const { error } = await fetchBatchDeleteOss([file.id]);
-  if (error) return false;
+  // const { error } = await fetchBatchDeleteOss([file.id]);
+  // if (error) return false;
   window.$message?.success('删除成功');
   return true;
 }

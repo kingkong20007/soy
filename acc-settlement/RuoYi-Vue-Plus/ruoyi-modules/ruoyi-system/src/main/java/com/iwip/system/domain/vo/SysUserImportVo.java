@@ -1,5 +1,6 @@
 package com.iwip.system.domain.vo;
 
+import cn.idev.excel.annotation.ExcelIgnore;
 import cn.idev.excel.annotation.ExcelProperty;
 import com.iwip.common.excel.annotation.ExcelDictFormat;
 import com.iwip.common.excel.convert.ExcelDictConvert;
@@ -26,8 +27,15 @@ public class SysUserImportVo implements Serializable {
     /**
      * 用户ID
      */
-    @ExcelProperty(value = "用户序号")
+//    @ExcelProperty(value = "用户序号")
+    @ExcelIgnore //防止映射到excel
     private Long userId;
+
+    /**
+     * 用户账号
+     */
+    @ExcelProperty(value = "用户账号")
+    private String userName;
 
     /**
      * 部门ID
@@ -35,11 +43,6 @@ public class SysUserImportVo implements Serializable {
     @ExcelProperty(value = "部门编号")
     private Long deptId;
 
-    /**
-     * 用户账号
-     */
-    @ExcelProperty(value = "用户账号")
-    private String userName;
 
     /**
      * 用户昵称

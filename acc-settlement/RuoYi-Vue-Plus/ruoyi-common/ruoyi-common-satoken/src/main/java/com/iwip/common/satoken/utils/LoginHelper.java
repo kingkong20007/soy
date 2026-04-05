@@ -9,7 +9,6 @@ import cn.hutool.core.util.ObjectUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import com.iwip.common.core.constant.SystemConstants;
-import com.iwip.common.core.constant.TenantConstants;
 import com.iwip.common.core.domain.model.LoginUser;
 import com.iwip.common.core.enums.UserType;
 
@@ -166,29 +165,29 @@ public class LoginHelper {
     }
 
     /**
-     * 是否为租户管理员
+     * 是否为管理员
      *
      * @param rolePermission 角色权限标识组
      * @return 结果
      */
-    public static boolean isTenantAdmin(Set<String> rolePermission) {
+    public static boolean isAdmin(Set<String> rolePermission) {
         if (CollUtil.isEmpty(rolePermission)) {
             return false;
         }
-        return rolePermission.contains(TenantConstants.TENANT_ADMIN_ROLE_KEY);
+        return rolePermission.contains(SystemConstants.ADMIN_ROLE_KEY);
     }
 
     /**
-     * 是否为租户管理员
+     * 是否为管理员
      *
      * @return 结果
      */
-    public static boolean isTenantAdmin() {
+    public static boolean isAdmin() {
         LoginUser loginUser = getLoginUser();
         if (loginUser == null) {
             return false;
         }
-        return Convert.toBool(isTenantAdmin(loginUser.getRolePermission()));
+        return Convert.toBool(isAdmin(loginUser.getRolePermission()));
     }
 
     /**

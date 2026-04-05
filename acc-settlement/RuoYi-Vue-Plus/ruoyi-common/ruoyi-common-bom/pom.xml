@@ -89,12 +89,6 @@
                 <version>${revision}</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.iwip</groupId>
-                <artifactId>ruoyi-common-social</artifactId>
-                <version>${revision}</version>
-            </dependency>
-
             <!-- web服务 -->
             <dependency>
                 <groupId>com.iwip</groupId>
@@ -122,6 +116,14 @@
                 <artifactId>ruoyi-common-json</artifactId>
                 <version>${revision}</version>
             </dependency>
+
+            <!-- 对象存储 Minio -->
+            <dependency>
+                <groupId>com.iwip</groupId>
+                <artifactId>ruoyi-common-minio</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
 
         </dependencies>
     </dependencyManagement>

@@ -50,11 +50,8 @@
             <artifactId>ruoyi-common-doc</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.iwip</groupId>
-            <artifactId>ruoyi-common-social</artifactId>
-        </dependency>
 
+        
         <dependency>
             <groupId>com.iwip</groupId>
             <artifactId>ruoyi-system</artifactId>
@@ -75,12 +72,6 @@
         <dependency>
             <groupId>com.iwip</groupId>
             <artifactId>ruoyi-demo</artifactId>
-        </dependency>
-
-        <!--  工作流模块  -->
-        <dependency>
-            <groupId>com.iwip</groupId>
-            <artifactId>ruoyi-workflow</artifactId>
         </dependency>
 
         <dependency>

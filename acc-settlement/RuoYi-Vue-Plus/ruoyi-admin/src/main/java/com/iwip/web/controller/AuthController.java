@@ -8,28 +8,23 @@ import com.iwip.common.core.constant.SystemConstants;
 import com.iwip.common.core.domain.R;
 import com.iwip.common.core.domain.model.LoginBody;
 import com.iwip.common.core.domain.model.RegisterBody;
-import com.iwip.common.core.domain.model.SocialLoginBody;
+
 import com.iwip.common.core.utils.MessageUtils;
 import com.iwip.common.core.utils.StringUtils;
 import com.iwip.common.core.utils.ValidatorUtils;
 import com.iwip.common.json.utils.JsonUtils;
-import com.iwip.common.social.config.properties.SocialLoginConfigProperties;
-import com.iwip.common.social.config.properties.SocialProperties;
-import com.iwip.common.social.utils.SocialUtils;
+
 import com.iwip.system.domain.vo.SysClientVo;
 import com.iwip.system.service.ISysClientService;
 import com.iwip.system.service.ISysConfigService;
-import com.iwip.system.service.ISysSocialService;
+
 import com.iwip.web.domain.vo.LoginVo;
 import com.iwip.web.service.IAuthStrategy;
 import com.iwip.web.service.SysLoginService;
 import com.iwip.web.service.SysRegisterService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.zhyd.oauth.model.AuthResponse;
-import me.zhyd.oauth.model.AuthUser;
-import me.zhyd.oauth.request.AuthRequest;
-import me.zhyd.oauth.utils.AuthStateUtils;
+
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,11 +45,9 @@ import java.util.concurrent.ScheduledExecutorService;
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final SocialProperties socialProperties;
     private final SysLoginService loginService;
     private final SysRegisterService registerService;
     private final ISysConfigService configService;
-    private final ISysSocialService socialUserService;
     private final ISysClientService clientService;
     private final ScheduledExecutorService scheduledExecutorService;
 
@@ -86,63 +79,7 @@ public class AuthController {
         return R.ok(loginVo);
     }
 
-    /**
-     * 获取跳转URL
-     *
-     * @param source 登录来源
-     * @return 结果
-     */
-    @GetMapping("/binding/{source}")
-    public R<String> authBinding(@PathVariable("source") String source,
-                                 @RequestParam String domain) {
-        SocialLoginConfigProperties obj = socialProperties.getType().get(source);
-        if (ObjectUtil.isNull(obj)) {
-            return R.fail(source + "平台账号暂不支持");
-        }
-        AuthRequest authRequest = SocialUtils.getAuthRequest(source, socialProperties);
-        Map<String, String> map = new HashMap<>();
-        map.put("domain", domain);
-        map.put("state", AuthStateUtils.createState());
-        String authorizeUrl = authRequest.authorize(Base64.encode(JsonUtils.toJsonString(map), StandardCharsets.UTF_8));
-        return R.ok("操作成功", authorizeUrl);
-    }
 
-    /**
-     * 前端回调绑定授权(需要token)
-     *
-     * @param loginBody 请求体
-     * @return 结果
-     */
-    @PostMapping("/social/callback")
-    public R<Void> socialCallback(@RequestBody SocialLoginBody loginBody) {
-        // 校验token
-        StpUtil.checkLogin();
-        // 获取第三方登录信息
-        AuthResponse<AuthUser> response = SocialUtils.loginAuth(
-            loginBody.getSource(), loginBody.getSocialCode(),
-            loginBody.getSocialState(), socialProperties);
-        AuthUser authUserData = response.getData();
-        // 判断授权响应是否成功
-        if (!response.ok()) {
-            return R.fail(response.getMsg());
-        }
-        loginService.socialRegister(authUserData);
-        return R.ok();
-    }
-
-
-    /**
-     * 取消授权(需要token)
-     *
-     * @param socialId socialId
-     */
-    @DeleteMapping(value = "/unlock/{socialId}")
-    public R<Void> unlockSocial(@PathVariable Long socialId) {
-        // 校验token
-        StpUtil.checkLogin();
-        Boolean rows = socialUserService.deleteWithValidById(socialId);
-        return rows ? R.ok() : R.fail("取消授权失败");
-    }
 
 
     /**

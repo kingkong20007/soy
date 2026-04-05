@@ -194,7 +194,7 @@ public interface ISysUserService {
      * @param avatar 头像地址
      * @return 结果
      */
-    boolean updateUserAvatar(Long userId, Long avatar);
+    boolean updateUserAvatar(Long userId, String avatar);
 
     /**
      * 重置用户密码

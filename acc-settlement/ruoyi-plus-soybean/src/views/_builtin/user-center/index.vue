@@ -6,7 +6,6 @@ import { fetchUpdateUserPassword, fetchUpdateUserProfile } from '@/service/api/s
 import { useAuthStore } from '@/store/modules/auth';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import OnlineTable from './modules/online-table.vue';
-import SocialCard from './modules/social-card.vue';
 import UserAvatar from './modules/user-avatar.vue';
 
 defineOptions({
@@ -218,9 +217,6 @@ async function updatePassword() {
               </NButton>
             </NFormItem>
           </NForm>
-        </NTabPane>
-        <NTabPane name="social" tab="第三方应用">
-          <SocialCard />
         </NTabPane>
         <NTabPane name="online" tab="在线设备">
           <div class="h-full">

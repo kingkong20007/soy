@@ -68,6 +68,12 @@
             <artifactId>ruoyi-common-sensitive</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.iwip</groupId>
+            <artifactId>ruoyi-common-minio</artifactId>
+        </dependency>
+
+
     </dependencies>
 
 </project>

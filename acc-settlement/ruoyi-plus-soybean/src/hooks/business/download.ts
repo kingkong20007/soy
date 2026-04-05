@@ -93,7 +93,10 @@ export function useDownload() {
   async function executeDownload(config: RequestConfig): Promise<void> {
     const { method, url, params, filename, contentType } = config;
     const timestamp = Date.now();
-    const fullUrl = `${baseURL}${url}${url.includes('?') ? '&' : '?'}t=${timestamp}`;
+    const isAbsoluteUrl = url.startsWith('http://') || url.startsWith('https://');
+    const fullUrl = isAbsoluteUrl 
+      ? `${url}${url.includes('?') ? '&' : '?'}t=${timestamp}`
+      : `${baseURL}${url}${url.includes('?') ? '&' : '?'}t=${timestamp}`;
 
     window.$loading?.startLoading('正在下载数据，请稍候...');
 
@@ -142,11 +145,13 @@ export function useDownload() {
   const download = (url: string, params: Record<string, any>, filename: string) =>
     executeDownload({ method: 'POST', url, params, filename });
 
-  /** OSS文件下载 */
-  const oss = (ossId: CommonType.IdType) =>
+  /** 根据完整URL下载文件 */
+  const fileUrl = (url: string, filename?: string) =>
     executeDownload({
       method: 'GET',
-      url: `/resource/oss/download/${ossId}`
+      url,
+      filename,
+      contentType: 'application/octet-stream'
     });
 
   /** ZIP文件下载 */
@@ -159,7 +164,7 @@ export function useDownload() {
     });
 
   return {
-    oss,
+    fileUrl,
     zip,
     download
   };

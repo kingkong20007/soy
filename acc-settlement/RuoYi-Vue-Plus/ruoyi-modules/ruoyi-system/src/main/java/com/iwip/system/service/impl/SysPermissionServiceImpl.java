@@ -1,7 +1,7 @@
 package com.iwip.system.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import com.iwip.common.core.constant.TenantConstants;
+import com.iwip.common.core.constant.SystemConstants;
 import com.iwip.common.core.service.PermissionService;
 import com.iwip.common.satoken.utils.LoginHelper;
 import com.iwip.system.service.ISysMenuService;
@@ -35,7 +35,7 @@ public class SysPermissionServiceImpl implements ISysPermissionService, Permissi
         Set<String> roles = new HashSet<>();
         // 管理员拥有所有权限
         if (LoginHelper.isSuperAdmin(userId)) {
-            roles.add(TenantConstants.SUPER_ADMIN_ROLE_KEY);
+            roles.add(SystemConstants.SUPER_ADMIN_ROLE_KEY);
         } else {
             roles.addAll(roleService.selectRolePermissionByUserId(userId));
         }

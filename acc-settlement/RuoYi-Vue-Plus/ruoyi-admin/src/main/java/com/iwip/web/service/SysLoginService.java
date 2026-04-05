@@ -21,13 +21,13 @@ import com.iwip.common.mybatis.helper.DataPermissionHelper;
 import com.iwip.common.redis.utils.RedisUtils;
 import com.iwip.common.satoken.utils.LoginHelper;
 import com.iwip.system.domain.SysUser;
-import com.iwip.system.domain.bo.SysSocialBo;
+
 import com.iwip.system.domain.vo.*;
 import com.iwip.system.mapper.SysUserMapper;
 import com.iwip.system.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.zhyd.oauth.model.AuthUser;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -52,50 +52,13 @@ public class SysLoginService {
     private Integer lockTime;
 
     private final ISysPermissionService permissionService;
-    private final ISysSocialService sysSocialService;
+
     private final ISysRoleService roleService;
     private final ISysDeptService deptService;
     private final ISysPostService postService;
     private final SysUserMapper userMapper;
 
 
-    /**
-     * 绑定第三方用户
-     *
-     * @param authUserData 授权响应实体
-     */
-    @Lock4j
-    public void socialRegister(AuthUser authUserData) {
-        String authId = authUserData.getSource() + authUserData.getUuid();
-        // 第三方用户信息
-        SysSocialBo bo = BeanUtil.toBean(authUserData, SysSocialBo.class);
-        BeanUtil.copyProperties(authUserData.getToken(), bo);
-        Long userId = LoginHelper.getUserId();
-        bo.setUserId(userId);
-        bo.setAuthId(authId);
-        bo.setOpenId(authUserData.getUuid());
-        bo.setUserName(authUserData.getUsername());
-        bo.setNickName(authUserData.getNickname());
-        List<SysSocialVo> checkList = sysSocialService.selectByAuthId(authId);
-        if (CollUtil.isNotEmpty(checkList)) {
-            throw new ServiceException("此三方账号已经被绑定!");
-        }
-        // 查询是否已经绑定用户
-        SysSocialBo params = new SysSocialBo();
-        params.setUserId(userId);
-        params.setSource(bo.getSource());
-        List<SysSocialVo> list = sysSocialService.queryList(params);
-        if (CollUtil.isEmpty(list)) {
-            // 没有绑定用户, 新增用户信息
-            sysSocialService.insertByBo(bo);
-        } else {
-            // 更新用户信息
-            bo.setId(list.get(0).getId());
-            sysSocialService.updateByBo(bo);
-            // 如果要绑定的平台账号已经被绑定过了 是否抛异常自行决断
-            // throw new ServiceException("此平台账号已经被绑定!");
-        }
-    }
 
 
     /**

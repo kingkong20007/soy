@@ -105,7 +105,7 @@ export const generatedRoutes: GeneratedRoute[] = [
   },
   {
     name: 'login',
-    path: '/login/:module(pwd-login|register|reset-pwd|bind-wechat)?',
+    path: '/login/:module(pwd-login|code-login|register|reset-pwd|bind-wechat)?',
     component: 'layout.blank$view.login',
     props: true,
     meta: {
@@ -161,17 +161,6 @@ export const generatedRoutes: GeneratedRoute[] = [
         }
       }
     ]
-  },
-  {
-    name: 'social-callback',
-    path: '/social-callback',
-    component: 'layout.blank$view.social-callback',
-    meta: {
-      title: 'social-callback',
-      i18nKey: 'route.social-callback',
-      constant: true,
-      hideInMenu: true
-    }
   },
   {
     name: 'system',

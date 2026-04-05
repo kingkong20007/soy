@@ -7,6 +7,7 @@ import type { IDomEditor, IEditorConfig, IToolbarConfig } from '@wangeditor-next
 import { useAppStore } from '@/store/modules/app';
 import { getToken } from '@/store/modules/auth/shared';
 import { getServiceBaseURL } from '@/utils/service';
+import { getFileUrl } from '@/utils/file';
 
 defineOptions({
   name: 'WangEditor'
@@ -29,7 +30,7 @@ const editorConfig: Partial<IEditorConfig> = {
   placeholder: '请输入内容...',
   MENU_CONF: {
     uploadImage: {
-      server: `${baseURL}/resource/oss/upload`,
+      server: `${baseURL}/resource/file/upload`,
       fieldName: 'file',
       meta: {},
       headers: {
@@ -45,7 +46,7 @@ const editorConfig: Partial<IEditorConfig> = {
           return;
         }
 
-        insertFn(res.data?.url, res.data?.fieldName);
+        insertFn(getFileUrl(res.data?.url), res.data?.originalName || res.data?.fileName);
       },
       onSuccess() {},
       onFailed() {},

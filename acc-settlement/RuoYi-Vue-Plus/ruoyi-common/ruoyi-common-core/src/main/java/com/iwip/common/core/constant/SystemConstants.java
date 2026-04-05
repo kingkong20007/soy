@@ -87,5 +87,14 @@ public interface SystemConstants {
      */
     String[] EXCLUDE_PROPERTIES = { "password", "oldPassword", "newPassword", "confirmPassword" };
 
+    /**
+     * 超级管理员角色 roleKey
+     */
+    String SUPER_ADMIN_ROLE_KEY = "superadmin";
+
+    /**
+     * 管理员角色 roleKey
+     */
+    String ADMIN_ROLE_KEY = "admin";
 
 }

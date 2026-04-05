@@ -60,7 +60,7 @@ export function getServiceBaseURL(env: Env.ImportMeta, isProxy: boolean = env.DE
   });
 
   return {
-    baseURL: isProxy ? proxyPattern : (baseURL || '') + proxyPattern,
+    baseURL: isProxy ? proxyPattern : (baseURL || ''),
     otherBaseURL
   };
 }

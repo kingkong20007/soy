@@ -6,6 +6,7 @@ import { Cropper } from 'vue-advanced-cropper';
 import { useBoolean, useLoading } from '@sa/hooks';
 import { fetchUpdateUserAvatar } from '@/service/api/system';
 import { useAuthStore } from '@/store/modules/auth';
+import { getFileUrl } from '@/utils/file';
 import defaultAvatar from '@/assets/imgs/soybean.jpg';
 import 'vue-advanced-cropper/dist/style.css';
 
@@ -30,7 +31,7 @@ const { bool: showModal, setTrue: showDrawer, setFalse: hideDrawer } = useBoolea
 // 使用 useLoading 管理加载状态
 const { loading, startLoading, endLoading } = useLoading();
 
-const imageUrl = ref(authStore.userInfo.user?.avatar || defaultAvatar);
+const imageUrl = ref(authStore.userInfo.user?.avatar ? getFileUrl(authStore.userInfo.user?.avatar) : defaultAvatar);
 const cropperRef = ref<CropperRef | null>(null);
 
 // 图片裁剪数据
