@@ -82,6 +82,13 @@
                 <version>${revision}</version>
             </dependency>
 
+            <!-- Minio -->
+            <dependency>
+                <groupId>org.dromara</groupId>
+                <artifactId>ruoyi-common-minio</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
             <!-- 限流 -->
             <dependency>
                 <groupId>org.dromara</groupId>
