@@ -1,0 +1,39 @@
+# MCP 服务器监听端口
+server:
+  port: 8084
+  # 防止大模型聊天乱码配置
+  servlet:
+    encoding:
+      enabled: true
+      force: true
+      charset: UTF-8
+
+spring:
+  application:
+    name: ssa-localMcpServer
+#
+  ai:
+    # 2. Google Gemini 云端配置 (这段你写得非常标准！)
+    google:
+      genai:
+        api-key: AIzaSyA6648ADoLOjAoDqSf2jHaF7YRXgB-EUmU
+        chat:
+          options:
+            model: gemini-3.1-flash-lite-preview
+    mcp:
+     client:
+       request-timeout: 20s
+       # 连接到百度提供的 MCP 服务器（示例：使用 stdio 方式调用其本地工具集）
+       stdio:
+         connections:
+           baidu-mcp-server:
+             # 这里的 command 和 args 需要根据百度 MCP 服务器的具体启动脚本或可执行文件路径进行配置
+             command: npx
+             args:
+               - "-y"
+               - "@baidu/mcp-server" # 假设的百度 MCP 服务包名
+
+
+
+
+
