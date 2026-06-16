@@ -2,10 +2,10 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.dromara.workflow.mapper.FlwTaskMapper">
-    <resultMap type="org.dromara.workflow.domain.vo.FlowTaskVo" id="FlowTaskResult">
+<mapper namespace="com.iwip.workflow.mapper.FlwTaskMapper">
+    <resultMap type="com.iwip.workflow.domain.vo.FlowTaskVo" id="FlowTaskResult">
     </resultMap>
-    <resultMap type="org.dromara.workflow.domain.vo.FlowHisTaskVo" id="FlowHisTaskResult">
+    <resultMap type="com.iwip.workflow.domain.vo.FlowHisTaskVo" id="FlowHisTaskResult">
     </resultMap>
 
     <select id="getListRunTask" resultMap="FlowTaskResult">

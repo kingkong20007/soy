@@ -1,5 +1,5 @@
 {
-  "org.dromara.common.ratelimiter.annotation.RateLimiter@key": {
+  "com.iwip.common.ratelimiter.annotation.RateLimiter@key": {
     "method": {
       "parameters": true
     }

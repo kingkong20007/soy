@@ -2,12 +2,12 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.dromara.system.mapper.SysUserMapper">
+<mapper namespace="com.iwip.system.mapper.SysUserMapper">
 
-    <resultMap type="org.dromara.system.domain.vo.SysUserVo" id="SysUserResult">
+    <resultMap type="com.iwip.system.domain.vo.SysUserVo" id="SysUserResult">
         <id property="userId" column="user_id"/>
     </resultMap>
-    <resultMap type="org.dromara.system.domain.vo.SysUserExportVo" id="SysUserExportResult">
+    <resultMap type="com.iwip.system.domain.vo.SysUserExportVo" id="SysUserExportResult">
         <id property="userId" column="user_id"/>
     </resultMap>
 

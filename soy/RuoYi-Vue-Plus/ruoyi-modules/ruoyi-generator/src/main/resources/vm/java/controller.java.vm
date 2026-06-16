@@ -8,20 +8,20 @@ import jakarta.validation.constraints.*;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.annotation.Validated;
-import org.dromara.common.idempotent.annotation.RepeatSubmit;
-import org.dromara.common.log.annotation.Log;
-import org.dromara.common.web.core.BaseController;
-import org.dromara.common.mybatis.core.page.PageQuery;
-import org.dromara.common.core.domain.R;
-import org.dromara.common.core.validate.AddGroup;
-import org.dromara.common.core.validate.EditGroup;
-import org.dromara.common.log.enums.BusinessType;
-import org.dromara.common.excel.utils.ExcelUtil;
+import com.iwip.common.idempotent.annotation.RepeatSubmit;
+import com.iwip.common.log.annotation.Log;
+import com.iwip.common.web.core.BaseController;
+import com.iwip.common.mybatis.core.page.PageQuery;
+import com.iwip.common.core.domain.R;
+import com.iwip.common.core.validate.AddGroup;
+import com.iwip.common.core.validate.EditGroup;
+import com.iwip.common.log.enums.BusinessType;
+import com.iwip.common.excel.utils.ExcelUtil;
 import ${packageName}.domain.vo.${ClassName}Vo;
 import ${packageName}.domain.bo.${ClassName}Bo;
 import ${packageName}.service.I${ClassName}Service;
 #if($table.crud)
-import org.dromara.common.mybatis.core.page.TableDataInfo;
+import com.iwip.common.mybatis.core.page.TableDataInfo;
 #elseif($table.tree)
 #end
 
