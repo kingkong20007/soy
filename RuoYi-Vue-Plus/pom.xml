@@ -43,6 +43,8 @@
         <aws.sdk.version>2.28.22</aws.sdk.version>
         <!-- SMS 配置 -->
         <sms4j.version>3.3.5</sms4j.version>
+        <!-- RocketMQ 配置 -->
+            <rocketmq.version>2.3.4</rocketmq.version>
         <!-- 限制框架中的fastjson版本 -->
         <fastjson.version>1.2.83</fastjson.version>
         <!-- 面向运行时的D-ORM依赖 -->
@@ -267,6 +269,13 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>lock4j-redisson-spring-boot-starter</artifactId>
                 <version>${lock4j.version}</version>
+            </dependency>
+
+            <!-- RocketMQ Starter -->
+            <dependency>
+                <groupId>org.apache.rocketmq</groupId>
+                <artifactId>rocketmq-spring-boot-starter</artifactId>
+                <version>${rocketmq.version}</version>
             </dependency>
 
             <!-- SnailJob Client -->

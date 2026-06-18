@@ -275,3 +275,12 @@ minio:
   accessKey: iwip
   secretKey: iwip@123.
   bucketName: acc-settlement
+
+--- # rocketmq 配置
+rocketmq:
+  name-server: 127.0.0.1:9876
+  producer:
+    group: order-producer-group
+    send-message-timeout: 3000
+    retry-times-when-send-failed: 3
+    retry-times-when-send-async-failed: 3
