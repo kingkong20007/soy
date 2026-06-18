@@ -27,9 +27,13 @@ bin/mqbroker.cmd -n 127.0.0.1:9876 autoCreateTopicEnable=true
 
 本项目实现的业务是 **用户下单并触发下游扣减预留库存、积分发放等业务**。
 
-### 1. 代码文件结构
+### 1. 代码文件结构与模块设计
 
-所有编写的代码已放入 `ruoyi-demo` 模块中，符合 `RuoYi-Vue-Plus` 的包命名与编码标准：
+为了符合 `RuoYi-Vue-Plus` 的高内聚、低耦合架构设计，我们将消息队列中间件独立为公共模块 `ruoyi-common-mq`（类似于 `ruoyi-common-redis` 和 `ruoyi-common-mybatis`），并在 `ruoyi-demo` 模块中进行业务实现。
+
+*   **公共基础设施层 (Common Infrastructure)**
+    *   [ruoyi-common-mq](file:///D:/develop/soy/RuoYi-Vue-Plus/ruoyi-common/ruoyi-common-mq): 公共 MQ 模块，封装 RocketMQ 自动配置与公共组件，解耦业务模块与底层中间件。
+*   **业务应用与数据流转 (ruoyi-demo)**
 
 *   **实体与数据流转对象**
     *   [DemoOrder.java](file:///D:/develop/soy/RuoYi-Vue-Plus/ruoyi-modules/ruoyi-demo/src/main/java/com/iwip/demo/domain/DemoOrder.java): 订单实体类，继承 `TenantEntity` 以自动支持多租户及 `BaseEntity` 的创建/更新时间字段，启用乐观锁。

@@ -103,10 +103,10 @@
             <artifactId>ruoyi-common-websocket</artifactId>
         </dependency>
 
-        <!-- RocketMQ Starter -->
+        <!-- MQ模块 -->
         <dependency>
-            <groupId>org.apache.rocketmq</groupId>
-            <artifactId>rocketmq-spring-boot-starter</artifactId>
+            <groupId>com.iwip</groupId>
+            <artifactId>ruoyi-common-mq</artifactId>
         </dependency>
 
     </dependencies>
