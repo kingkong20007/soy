@@ -278,7 +278,7 @@ minio:
 
 --- # rocketmq 配置
 rocketmq:
-  name-server: 127.0.0.1:9876
+  name-server: 192.168.127.130:9876
   producer:
     group: order-producer-group
     send-message-timeout: 3000

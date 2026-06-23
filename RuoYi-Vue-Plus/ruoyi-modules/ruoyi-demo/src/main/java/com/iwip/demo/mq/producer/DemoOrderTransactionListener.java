@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 /**
  * 订单事务消息监听器 (执行本地事务 & 事务状态回查)
  *
- * @author Antigravity
+ * @author kingkong
  * @date 2026-06-18
  */
 @Slf4j
@@ -58,7 +58,7 @@ public class DemoOrderTransactionListener implements RocketMQLocalTransactionLis
      */
     @Override
     public RocketMQLocalTransactionState checkLocalTransaction(Message msg) {
-        String orderNo = (String) msg.getHeaders().get("orderNo");
+        String orderNo = (String) msg.getHeaders().get(com.iwip.common.mq.constant.MqConstants.HEADER_ORDER_NO);
         log.info("[事务监听器] 收到 Broker 事务回查请求，订单号: {}", orderNo);
         try {
             DemoOrder order = orderService.selectByOrderNo(orderNo);

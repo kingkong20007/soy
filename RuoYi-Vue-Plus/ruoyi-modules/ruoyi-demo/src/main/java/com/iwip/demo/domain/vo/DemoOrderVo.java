@@ -14,7 +14,7 @@ import java.util.Date;
 /**
  * 演示订单视图对象
  *
- * @author Antigravity
+ * @author kingkong
  * @date 2026-06-18
  */
 @Data
@@ -62,7 +62,7 @@ public class DemoOrderVo implements Serializable {
     private BigDecimal amount;
 
     /**
-     * 订单状态 (0: 待支付, 1: 已支付, 2: 已取消, 3: 已失效)
+     * 订单状态 (0: 待支付, 1: 已支付, 2: 已取消, 3: 已失效, 4: 待审批, 5: 审批退回/驳回)
      */
     @ExcelProperty(value = "订单状态")
     private Integer status;

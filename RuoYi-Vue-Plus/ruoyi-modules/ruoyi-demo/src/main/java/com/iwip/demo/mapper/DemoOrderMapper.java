@@ -7,7 +7,7 @@ import com.iwip.demo.domain.vo.DemoOrderVo;
 /**
  * 演示订单Mapper接口
  *
- * @author Antigravity
+ * @author kingkong
  * @date 2026-06-18
  */
 public interface DemoOrderMapper extends BaseMapperPlus<DemoOrder, DemoOrderVo> {

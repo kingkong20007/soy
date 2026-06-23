@@ -202,3 +202,69 @@ rocketmq:
     maxReconsumeTimes = 5                    # 生产建议降低重试次数，默认16次可能导致单条消息阻塞时间过长，5-8次即可进入DLQ
 )
 ```
+
+---
+
+## 六、 补充案例：顺序消息（Ordered Messages）的可靠性设计
+
+在某些业务场景下（例如：`订单创建 -> 订单支付 -> 订单发货 -> 订单完成`），消息的消费顺序必须与生产顺序保持严格一致。如果由于重试或并发导致消息乱序消费，将引发严重的业务状态错误。
+
+### 1. 顺序消息原理解析
+RocketMQ 实现顺序消息的核心是**局部顺序**：
+* **发送端**：必须使用相同的 **Sharding Key**（例如订单号 `orderNo`），通过哈希路由算法将同一个订单的所有状态消息分配到 Broker 的同一个 **MessageQueue**。
+* **Broker端**：对同一个 MessageQueue 中的消息严格按 FIFO 顺序排队存储。
+* **消费端**：设置 `consumeMode = ConsumeMode.ORDERLY`。RocketMQ 会对每个 MessageQueue 加分布式锁，并保证同一个 Queue 同时只能被消费端的一个线程以单线程模式消费。
+
+### 2. 顺序消息核心代码
+本工程中新增的顺序消息演示组件包括：
+* **消息实体**：[DemoOrderStepMsg.java](file:///D:/develop/soy/RuoYi-Vue-Plus/ruoyi-modules/ruoyi-demo/src/main/java/com/iwip/demo/domain/DemoOrderStepMsg.java)
+* **生产发送**：在 [DemoOrderServiceImpl.java](file:///D:/develop/soy/RuoYi-Vue-Plus/ruoyi-modules/ruoyi-demo/src/main/java/com/iwip/demo/service/impl/DemoOrderServiceImpl.java) 中通过 `syncSendOrderly` 顺序发送：
+  ```java
+  rocketMQTemplate.syncSendOrderly(MqConstants.ORDER_STEP_TOPIC, stepMsg, orderNo);
+  ```
+* **消费监听**：在 [DemoOrderStepConsumer.java](file:///D:/develop/soy/RuoYi-Vue-Plus/ruoyi-modules/ruoyi-demo/src/main/java/com/iwip/demo/mq/consumer/DemoOrderStepConsumer.java) 中使用 `ConsumeMode.ORDERLY`：
+  ```java
+  @RocketMQMessageListener(
+      topic = MqConstants.ORDER_STEP_TOPIC,
+      consumerGroup = MqConstants.ORDER_STEP_CONSUMER_GROUP,
+      consumeMode = ConsumeMode.ORDERLY // 💡 顺序消费模式
+  )
+  ```
+* **触发入口**：提供 HTTP 接口 `/demo/order/steps/{orderNo}`，可通过 [DemoOrderController.java](file:///D:/develop/soy/RuoYi-Vue-Plus/ruoyi-modules/ruoyi-demo/src/main/java/com/iwip/demo/controller/DemoOrderController.java) 触发。
+
+---
+
+## 七、 补充案例：延迟消息（Delay Messages）与订单超时自动关闭
+
+在电商业务中，一个非常经典的需求是：**用户下单后 30 分钟未支付，系统自动取消订单并释放锁定的库存**。使用定时的 MQ 延迟消息，能够以极低开销、极高精确度实现该功能，避免使用定时任务扫库造成的数据库高负载。
+
+### 1. 延迟消息原理解析
+* **发送端**：生产者发送消息时，可以指定一个延迟级别。RocketMQ 收到消息后，并不会直接投递给目标 Topic 队列，而是先将消息存储到系统内置的 `SCHEDULE_TOPIC_XXXX` 定时主题中。
+* **延迟计时器**：Broker 内部会定时轮询该定时主题，当时间到期时，重新把消息打包并投递到真实的业务 Topic 队列中。
+* **消费端**：当消息到达业务 Topic 时，消费者才开始拉取并正常消费。
+
+### 2. 延迟消息核心代码
+本工程中新增的订单超时取消（延迟消息）演示组件包括：
+* **生产发送**：在 [DemoOrderServiceImpl.java](file:///D:/develop/soy/RuoYi-Vue-Plus/ruoyi-modules/ruoyi-demo/src/main/java/com/iwip/demo/service/impl/DemoOrderServiceImpl.java) 中的 `placeOrderWithTimeout`：
+  ```java
+  // 发送延迟消息，传递订单 ID 作为 Payload，延迟级别 3（10秒超时）
+  rocketMQTemplate.syncSend(MqConstants.ORDER_TIMEOUT_TOPIC, message, 3000, 3);
+  ```
+* **自动关单服务逻辑**：通过乐观锁和状态机条件进行防并发，实现业务幂等：
+  ```java
+  // 状态机更新为 2 (已取消)，仅在原状态为 0 (待支付) 时生效
+  order.setStatus(2);
+  LambdaQueryWrapper<DemoOrder> updateWrapper = Wrappers.lambdaQuery();
+  updateWrapper.eq(DemoOrder::getId, orderId).eq(DemoOrder::getStatus, 0);
+  baseMapper.update(order, updateWrapper);
+  ```
+* **消费监听**：在 [DemoOrderTimeoutConsumer.java](file:///D:/develop/soy/RuoYi-Vue-Plus/ruoyi-modules/ruoyi-demo/src/main/java/com/iwip/demo/mq/consumer/DemoOrderTimeoutConsumer.java)：
+  ```java
+  @RocketMQMessageListener(
+      topic = MqConstants.ORDER_TIMEOUT_TOPIC,
+      consumerGroup = MqConstants.ORDER_TIMEOUT_CONSUMER_GROUP
+  )
+  public class DemoOrderTimeoutConsumer implements RocketMQListener<Long> { ... }
+  ```
+* **触发入口**：提供 HTTP 接口 `/demo/order/place-with-timeout`，可通过 [DemoOrderController.java](file:///D:/develop/soy/RuoYi-Vue-Plus/ruoyi-modules/ruoyi-demo/src/main/java/com/iwip/demo/controller/DemoOrderController.java) 触发。
+

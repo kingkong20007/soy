@@ -2,11 +2,13 @@ package com.iwip.demo.mq.consumer;
 
 import com.iwip.common.redis.utils.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
 import org.redisson.api.RLock;
 import org.springframework.stereotype.Component;
+import com.iwip.common.mq.constant.MqConstants;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
@@ -15,19 +17,25 @@ import java.util.concurrent.TimeUnit;
 /**
  * 订单消费者 (演示幂等性、并发控制、可靠性设计)
  *
- * @author Antigravity
+ * @author kingkong
  * @date 2026-06-18
  */
 @Slf4j
 @Component
 @RocketMQMessageListener(
-    topic = "demo_order_topic",
-    consumerGroup = "demo_order_consumer_group",
-    selectorExpression = "create" // 只消费 tag 为 create 的下单成功消息
+    topic = MqConstants.ORDER_TOPIC,
+    consumerGroup = MqConstants.ORDER_CONSUMER_GROUP,
+    selectorExpression = MqConstants.ORDER_CREATE_TAG // 只消费 tag 为 create 的下单成功消息
 )
 public class DemoOrderConsumer implements RocketMQListener<MessageExt> {
 
+    /**
+     * 分布式锁 key 前缀
+     */
     private static final String LOCK_PREFIX = "mq:lock:order_consume:";
+    /**
+     * 幂等状态表 key 前缀
+     */
     private static final String IDEMPOTENT_PREFIX = "mq:idempotent:order_consume:";
 
     @Override
@@ -43,7 +51,6 @@ public class DemoOrderConsumer implements RocketMQListener<MessageExt> {
             log.error("[订单消费者] 消息内容为空，拒不消费. MsgId: {}", msgId);
             return; // 格式错误，直接丢弃（不抛异常，避免重试）
         }
-
         // 2. 基于 Redis 分布式锁，解决【高并发消息重复投递】的并发竞争问题
         String lockKey = LOCK_PREFIX + orderNo;
         RLock lock = RedisUtils.getClient().getLock(lockKey);
@@ -58,7 +65,7 @@ public class DemoOrderConsumer implements RocketMQListener<MessageExt> {
             }
 
             // 3. 基于“幂等状态表”设计，解决【消息重复/幂等性】问题
-            // 双重校验：1) 校验Redis状态；2) 校验数据库状态（这里演示Redis校验，真实生产还可以查询下游业务单据是否存在）
+            // 双重校验：1) 校验Redis状态；2) 校验数据库状态（这里仅演示Redis校验，真实生产还可以查询下游业务单据是否存在，以达到双重保险，既达到执行的效率，也保证了安全性）
             String idempotentKey = IDEMPOTENT_PREFIX + orderNo;
             String consumeStatus = RedisUtils.getCacheObject(idempotentKey);
             if ("SUCCESS".equals(consumeStatus)) {
@@ -97,7 +104,7 @@ public class DemoOrderConsumer implements RocketMQListener<MessageExt> {
         log.info("[下游业务] 正在为订单 {} 扣减预留库存...", orderNo);
         try {
             // 模拟业务处理耗时
-            TimeUnit.MILLISECONDS.sleep(800);
+            TimeUnit.MILLISECONDS.sleep(400);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }

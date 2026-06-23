@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 /**
  * 演示订单对象 demo_order
  *
- * @author Antigravity
+ * @author kingkong
  * @date 2026-06-18
  */
 @Data
@@ -54,7 +54,7 @@ public class DemoOrder extends TenantEntity {
     private BigDecimal amount;
 
     /**
-     * 订单状态 (0: 待支付, 1: 已支付, 2: 已取消, 3: 已失效)
+     * 订单状态 (0: 待支付, 1: 已支付, 2: 已取消, 3: 已失效, 4: 待审批, 5: 审批退回/驳回)
      */
     private Integer status;
 
